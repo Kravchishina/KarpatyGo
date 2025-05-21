@@ -1,0 +1,102 @@
+<?php
+class AuthController {
+    /**
+     * Реєстрація нового користувача
+     */
+    public function register() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $username = $_POST['username'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $password = $_POST['password'] ?? '';
+
+            // Базова валідація введених даних
+            if (empty($username) || empty($email) || empty($password)) {
+                echo "Усі поля обов'язкові для заповнення!";
+                return;
+            }
+
+            // Імітація взаємодії з моделлю користувача
+            $userModel = new UserModel();
+            $result = $userModel->createUser($username, $email, $password);
+
+            // Обробка результату
+            if ($result) {
+                echo "Реєстрація пройшла успішно!";
+            } else {
+                echo "Виникла помилка під час реєстрації!";
+            }
+        } else {
+            // Відображення форми для реєстрації
+            echo "Форма реєстрації";
+        }
+    }
+
+    /**
+     * Вхід користувача в систему
+     */
+    public function login() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $email = $_POST['email'] ?? '';
+            $password = $_POST['password'] ?? '';
+
+            // Перевірка на заповненість полів
+            if (empty($email) || empty($password)) {
+                echo "Email та пароль обов'язкові!";
+                return;
+            }
+
+            // Імітація аутентифікації через модель
+            $authModel = new AuthModel();
+            $user = $authModel->authenticate($email, $password);
+
+            // Перевірка результату аутентифікації
+            if ($user) {
+                echo "Вхід виконано успішно!";
+            } else {
+                echo "Неправильний email або пароль!";
+            }
+        } else {
+            // Відображення форми входу
+            echo "Форма входу";
+        }
+    }
+
+    /**
+     * Вихід користувача з системи
+     */
+    public function logout() {
+        // Початок сесії для її завершення
+        session_start();
+        session_destroy();
+        echo "Вихід із системи успішний!";
+    }
+
+    /**
+     * Скидання пароля користувача
+     */
+    public function resetPassword() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $email = $_POST['email'] ?? '';
+
+            // Валідація email
+            if (empty($email)) {
+                echo "Вкажіть email для скидання пароля!";
+                return;
+            }
+
+            // Імітація відправки посилання через модель
+            $authModel = new AuthModel();
+            $result = $authModel->sendResetLink($email);
+
+            // Повідомлення про результат
+            if ($result) {
+                echo "Посилання для скидання пароля надіслано на ваш email!";
+            } else {
+                echo "Email не знайдено в системі!";
+            }
+        } else {
+            // Відображення форми скидання пароля
+            echo "Форма скидання пароля";
+        }
+    }
+}
