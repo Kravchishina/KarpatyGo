@@ -1,0 +1,29 @@
+<?php
+
+class SearchService {
+    public function searchRoutes($query, $filters) {
+        // Імітація складного пошуку
+        return ['results' => [$query => $filters]];
+    }
+}
+
+class SearchController {
+    private $searchService;
+
+    public function __construct() {
+        $this->searchService = new SearchService();
+    }
+
+    public function search() {
+        $query = $_GET['q'] ?? '';
+        $filters = $_GET['filters'] ?? [];
+
+        if (empty($query)) {
+            echo json_encode(['error' => 'Введіть запит!']);
+            return;
+        }
+
+        $results = $this->searchService->searchRoutes($query, $filters);
+        echo json_encode($results);
+    }
+}
