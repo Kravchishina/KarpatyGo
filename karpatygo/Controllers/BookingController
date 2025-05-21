@@ -1,0 +1,77 @@
+class BookingController {
+    public function index() {
+        $bookingModel = new BookingModel();
+        $bookings = $bookingModel->getAllBookings();
+        echo "Список бронювань: " . json_encode($bookings);
+    }
+
+    public function create() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_POST['user_id'] ?? '';
+            $routeId = $_POST['route_id'] ?? '';
+            $date = $_POST['date'] ?? '';
+
+            if (empty($userId) || empty($routeId) || empty($date)) {
+                echo "Усі поля (ID користувача, ID маршруту, дата) обов'язкові!";
+                return;
+            }
+
+            $bookingModel = new BookingModel();
+            $result = $bookingModel->createBooking($userId, $routeId, $date);
+
+            if ($result) {
+                echo "Бронювання створено!";
+            } else {
+                echo "Помилка при створенні бронювання!";
+            }
+        } else {
+            echo "Форма створення бронювання";
+        }
+    }
+
+    public function show($id) {
+        if (empty($id)) {
+            echo "ID бронювання обов'язковий!";
+            return;
+        }
+        $bookingModel = new BookingModel();
+        $booking = $bookingModel->getBookingById($id);
+        if ($booking) {
+            echo "Деталі бронювання: " . json_encode($booking);
+        } else {
+            echo "Бронювання не знайдено!";
+        }
+    }
+
+    public function edit($id) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $date = $_POST['date'] ?? '';
+
+            if (empty($date)) {
+                echo "Дата обов'язкова!";
+                return;
+            }
+
+            $bookingModel = new BookingModel();
+            $result = $bookingModel->updateBooking($id, $date);
+
+            if ($result) {
+                echo "Бронювання оновлено!";
+            } else {
+                echo "Помилка при оновленні бронювання!";
+            }
+        } else {
+            echo "Форма редагування бронювання ID: $id";
+        }
+    }
+
+    public function delete($id) {
+        $bookingModel = new BookingModel();
+        $result = $bookingModel->deleteBooking($id);
+        if ($result) {
+            echo "Бронювання видалено!";
+        } else {
+            echo "Помилка при видаленні бронювання!";
+        }
+    }
+}
