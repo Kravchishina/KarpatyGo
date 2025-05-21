@@ -1,0 +1,29 @@
+<?php
+
+class ReviewModerationService {
+    public function moderate($text) {
+        return strlen($text) > 10; // Проста перевірка
+    }
+}
+
+class ReviewController {
+    private $moderator;
+
+    public function __construct() {
+        $this->moderator = new ReviewModerationService();
+    }
+
+    public function create() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            echo "Форма відгуку";
+            return;
+        }
+
+        $text = $_POST['text'] ?? '';
+        if (!$this->moderator->moderate($text)) {
+            echo json_encode(['error' => 'Відгук занадто короткий!']);
+            return;
+        }
+        echo json_encode(['message' => 'Відгук створено!']);
+    }
+}
