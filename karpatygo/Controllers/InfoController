@@ -1,0 +1,39 @@
+<?php
+
+class InfoRepository {
+    private $db;
+
+    public function __construct(PDO $db) {
+        $this->db = $db;
+    }
+
+    public function getInfo($lang) {
+        $stmt = $this->db->prepare("SELECT * FROM info WHERE lang = :lang");
+        $stmt->execute([':lang' => $lang]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+}
+
+class InfoController {
+    private $db;
+    private $cache;
+    private $repository;
+
+    public function __construct() {
+        $this->db = new PDO('mysql:host=localhost;dbname=karpatygo', 'username', 'password');
+        $this->cache = Cache::getInstance();
+        $this->repository = new InfoRepository($this->db);
+    }
+
+    public function getInfo($lang = 'uk') {
+        $cacheKey = "info_{$lang}";
+        if ($cached = $this->cache->get($cacheKey)) {
+            echo json_encode($cached);
+            return;
+        }
+
+        $info = $this->repository->getInfo($lang);
+        $this->cache->set($cacheKey, $info, 7200);
+        echo json_encode($info);
+    }
+}
