@@ -1,0 +1,377 @@
+/* === Базові стилі === */
+body {
+    margin: 0;
+    font-family: 'Montserrat', Arial, sans-serif;
+    background: #e3dedb;
+    color: #5a4b3e;
+}
+
+a {
+    color: #b9a89c;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+a:hover {
+    color: #a08c7c;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Georgia', serif;
+    color: #6c615a;
+    margin-top: 0;
+}
+
+h2 {
+    font-size: 2.1rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-bottom: 24px;
+}
+
+.center-box {
+    background: #f5f1ee;
+    border-radius: 28px;
+    box-shadow: 0 2px 16px #0001;
+    padding: 36px 32px 24px 32px;
+    margin: 48px auto 0 auto;
+    max-width: 500px;
+}
+
+/* === Шапка === */
+.header {
+    background: #d6cdc8;
+    padding: 16px 0 12px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 48px;
+    padding-right: 48px;
+    box-shadow: 0 2px 8px #0001;
+}
+.header .logo {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #6c615a;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+}
+.header nav {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+.header nav a {
+    color: #6c615a;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    opacity: 0.85;
+    transition: opacity 0.2s;
+}
+.header nav a:hover {
+    opacity: 1;
+}
+.btn-register {
+    background: #b9a89c;
+    color: #fff !important;
+    padding: 8px 18px;
+    border-radius: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-left: 18px;
+    font-size: 1rem;
+    border: none;
+    transition: background 0.2s;
+}
+.btn-register:hover {
+    background: #a08c7c;
+}
+.btn-login {
+    background: none;
+    color: #6c615a;
+    border: none;
+    font-size: 1rem;
+    margin-left: 10px;
+    cursor: pointer;
+    font-weight: 500;
+}
+.header .search-box {
+    background: #e3dedb;
+    border-radius: 12px;
+    padding: 4px 12px;
+    border: 1px solid #d8cfc7;
+    display: flex;
+    align-items: center;
+    margin-left: 24px;
+}
+.header .search-box input {
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    color: #6c615a;
+    outline: none;
+    width: 100px;
+}
+.header .search-box .icon {
+    font-size: 1.1rem;
+    margin-left: 4px;
+    color: #bba08a;
+}
+
+/* === Hero блок === */
+.hero-bg {
+    position: relative;
+    width: 100%;
+    height: 75vh;
+    min-height: 500px;
+    background: url('/images/karpaty_bg.jpg') center center/cover no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.hero-overlay {
+    background: rgba(255,255,255,0.68);
+    border-radius: 32px;
+    max-width: 700px;
+    margin: 48px auto 0 auto;
+    padding: 48px 32px 38px 32px;
+    text-align: center;
+    box-shadow: 0 2px 24px #0001;
+}
+.hero-title {
+    color: #5a5047;
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-family: 'Georgia', serif;
+}
+.hero-subtitle {
+    color: #6c615a;
+    font-size: 1.35rem;
+    margin-bottom: 32px;
+    font-family: 'Montserrat', Arial, sans-serif;
+}
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 10px;
+}
+.hero-btn {
+    background: #b9a89c;
+    color: #fff;
+    padding: 14px 32px;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    text-decoration: none;
+    box-shadow: 0 2px 8px #0001;
+    transition: background 0.2s;
+    cursor: pointer;
+    display: inline-block;
+}
+.hero-btn:hover {
+    background: #a08c7c;
+}
+
+/* === Tabs bar === */
+.tabs-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 0 0 32px 32px;
+    padding: 16px 0 12px 0;
+}
+.tab-btn {
+    background: #f0ecea;
+    color: #7c7673;
+    border: none;
+    border-radius: 18px;
+    padding: 10px 34px;
+    font-size: 1.04rem;
+    font-weight: 600;
+    text-decoration: none;
+    margin: 0 4px;
+    transition: background 0.2s;
+}
+.tab-btn:hover {
+    background: #e3dedb;
+}
+
+/* === Форми === */
+input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="date"], input[type="number"], select, textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #d1c7be;
+    font-size: 1rem;
+    background: #fff;
+    color: #5a4b3e;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+textarea { min-height: 56px; resize: vertical; }
+
+label {
+    font-size: 0.97rem;
+    color: #6c615a;
+    margin-bottom: 12px;
+    text-align: left;
+    display: block;
+}
+
+input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+button, .login-btn {
+    width: 100%;
+    padding: 12px 30px;
+    border-radius: 8px;
+    background: #b9a89c;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    transition: background 0.2s;
+    cursor: pointer;
+}
+button:hover, .login-btn:hover {
+    background: #a08c7c;
+}
+
+/* === Повідомлення === */
+.success-msg {
+    color: #2b8c2b;
+    background: #eafbe7;
+    border-radius: 8px;
+    padding: 8px 0;
+    margin-bottom: 10px;
+    font-weight: 500;
+    text-align: center;
+}
+.error-msg {
+    color: #c55;
+    background: #fbe7e7;
+    border-radius: 8px;
+    padding: 8px 0;
+    margin-bottom: 10px;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* === Списки маршрутів, картки === */
+.routes-list, .guides-list, .reviews-slider {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    justify-content: center;
+}
+.route-card, .guide-card, .review-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px #0001;
+    padding: 18px 18px 14px 18px;
+    min-width: 220px;
+    max-width: 320px;
+    margin-bottom: 10px;
+    flex: 1 1 240px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.route-card strong, .guide-name, .review-name {
+    font-size: 1.18rem;
+    color: #6c615a;
+}
+.guide-photo, .review-photo {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 2px solid #b9a89c;
+    background: #fff;
+}
+.guide-desc, .review-text {
+    color: #5a4b3e;
+    font-size: 1.01rem;
+    text-align: center;
+}
+
+/* === FAQ === */
+.faq-q {
+    font-size: 1.13rem;
+    color: #6c615a;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.faq-a {
+    display: none;
+    color: #5a4b3e;
+    font-size: 1.03rem;
+    margin-top: 7px;
+}
+.faq-item.open .faq-a {
+    display: block;
+}
+.faq-item .arrow {
+    font-size: 1.3rem;
+    margin-left: 10px;
+    transition: transform 0.2s;
+}
+.faq-item.open .arrow {
+    transform: rotate(90deg);
+}
+
+/* === Футер === */
+.footer {
+    background: #d6cdc8;
+    color: #6c615a;
+    padding: 28px 0 18px 0;
+    text-align: center;
+    font-size: 1.01rem;
+    margin-top: 48px;
+    border-radius: 24px 24px 0 0;
+}
+.footer a {
+    color: #b9a89c;
+    margin: 0 10px;
+    text-decoration: underline;
+}
+.footer a:hover {
+    color: #a08c7c;
+}
+.footer .footer-links {
+    margin-bottom: 8px;
+}
+.footer .footer-social {
+    margin-top: 8px;
+}
+
+/* === Адаптивність === */
+@media (max-width: 900px) {
+    .header { flex-direction: column; gap: 8px; padding: 10px 8px; }
+    .hero-overlay { max-width: 98vw; padding: 32px 8vw; }
+    .tabs-bar { border-radius: 0; }
+    .center-box { padding: 18px 4vw; }
+    .routes-list, .guides-list, .reviews-slider { flex-direction: column; gap: 18px; }
+    .route-card, .guide-card, .review-card { min-width: 0; max-width: 98vw; }
+}
+
+@media (max-width: 600px) {
+    .hero-overlay { margin: 24px 4px 0 4px; padding: 14px 2vw; }
+    .tabs-bar { padding: 8px 0 8px 0; }
+    .center-box { margin: 18px 4px 0 4px; padding: 12px 2vw; }
+    .footer { font-size: 0.98rem; }
+}
