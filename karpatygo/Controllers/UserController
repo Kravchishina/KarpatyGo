@@ -1,0 +1,79 @@
+class UserController {
+    public function index() {
+        // Отримання списку всіх користувачів
+        $userModel = new UserModel();
+        $users = $userModel->getAllUsers();
+        echo "Список користувачів: " . json_encode($users);
+    }
+
+    public function create() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $username = $_POST['username'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $password = $_POST['password'] ?? '';
+
+            if (empty($username) || empty($email) || empty($password)) {
+                echo "Усі поля (ім'я, email, пароль) обов'язкові!";
+                return;
+            }
+
+            $userModel = new UserModel();
+            $result = $userModel->createUser($username, $email, $password);
+
+            if ($result) {
+                echo "Користувача створено!";
+            } else {
+                echo "Помилка при створенні користувача!";
+            }
+        } else {
+            echo "Форма створення користувача";
+        }
+    }
+
+    public function show($id) {
+        if (empty($id)) {
+            echo "ID користувача обов'язковий!";
+            return;
+        }
+        $userModel = new UserModel();
+        $user = $userModel->getUserById($id);
+        if ($user) {
+            echo "Профіль користувача: " . json_encode($user);
+        } else {
+            echo "Користувача не знайдено!";
+        }
+    }
+
+    public function edit($id) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $username = $_POST['username'] ?? '';
+            $email = $_POST['email'] ?? '';
+
+            if (empty($username) || empty($email)) {
+                echo "Ім'я та email обов'язкові!";
+                return;
+            }
+
+            $userModel = new UserModel();
+            $result = $userModel->updateUser($id, $username, $email);
+
+            if ($result) {
+                echo "Профіль оновлено!";
+            } else {
+                echo "Помилка при оновленні профілю!";
+            }
+        } else {
+            echo "Форма редагування користувача ID: $id";
+        }
+    }
+
+    public function delete($id) {
+        $userModel = new UserModel();
+        $result = $userModel->deleteUser($id);
+        if ($result) {
+            echo "Користувача видалено!";
+        } else {
+            echo "Помилка при видаленні користувача!";
+        }
+    }
+}
