@@ -1,0 +1,70 @@
+<?php
+
+class RouteValidationService {
+    public function validateRouteData($name, $distance, $difficulty) {
+        if (empty($name) || !is_numeric($distance) || !in_array($difficulty, ['easy', 'medium', 'hard'])) {
+            throw new Exception("Невірні дані маршруту!");
+        }
+    }
+}
+
+class RouteRepository {
+    private $db;
+
+    public function __construct(PDO $db) {
+        $this->db = $db;
+    }
+
+    public function saveRoute($name, $distance, $difficulty) {
+        $stmt = $this->db->prepare("INSERT INTO routes (name, distance, difficulty) VALUES (:name, :distance, :difficulty)");
+        $stmt->execute([':name' => $name, ':distance' => $distance, ':difficulty' => $difficulty]);
+        return $this->db->lastInsertId();
+    }
+}
+
+class RoutesController {
+    private $db;
+    private $cache;
+    private $validator;
+    private $repository;
+
+    public function __construct() {
+        $this->db = new PDO('mysql:host=localhost;dbname=karpatygo', 'username', 'password');
+        $this->cache = Cache::getInstance();
+        $this->validator = new RouteValidationService();
+        $this->repository = new RouteRepository($this->db);
+    }
+
+    public function index() {
+        $cacheKey = 'all_routes';
+        if ($cached = $this->cache->get($cacheKey)) {
+            echo json_encode(['data' => $cached]);
+            return;
+        }
+
+        $routes = $this->repository->findAll();
+        $this->cache->set($cacheKey, $routes, 3600);
+        echo json_encode(['data' => $routes]);
+    }
+
+    public function create() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            include 'templates/route_form.php';
+            return;
+        }
+
+        $name = $_POST['name'] ?? '';
+        $distance = $_POST['distance'] ?? '';
+        $difficulty = $_POST['difficulty'] ?? '';
+
+        try {
+            $this->validator->validateRouteData($name, $distance, $difficulty);
+            $routeId = $this->repository->saveRoute($name, $distance, $difficulty);
+            $this->cache->clear('all_routes'); // Очищаємо кеш
+            echo json_encode(['message' => 'Маршрут створено!', 'id' => $routeId]);
+        } catch (Exception $e) {
+            http_response_code(400);
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+    }
+}
