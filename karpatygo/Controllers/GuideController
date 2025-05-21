@@ -1,0 +1,35 @@
+<?php
+
+class GuideValidationService {
+    public function validateGuide($name, $experience, $certificates) {
+        if (empty($name) || $experience < 0 || empty($certificates)) {
+            throw new Exception("Невірні дані гіда!");
+        }
+    }
+}
+
+class GuideController {
+    private $validator;
+
+    public function __construct() {
+        $this->validator = new GuideValidationService();
+    }
+
+    public function create() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            echo "Форма створення гіда";
+            return;
+        }
+
+        $name = $_POST['name'] ?? '';
+        $experience = $_POST['experience'] ?? '';
+        $certificates = $_POST['certificates'] ?? '';
+
+        try {
+            $this->validator->validateGuide($name, $experience, $certificates);
+            echo json_encode(['message' => 'Гід створено!']);
+        } catch (Exception $e) {
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+    }
+}
